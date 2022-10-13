@@ -1,0 +1,11 @@
+
+
+
+
+GET http://localhost:3000/temperatures/12
+
+GET http://localhost:3000/temperatures/tempMoyMois
+
+GET http://localhost:3000/temperatures
+
+GET http://localhost:3000
