@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../javascripts/d3.min.js"></script>
+    <scriptsrc="https://d3js.org/d3.v7.min.js"></script>
+</head>
+</head>
+<body>
+    <svg width="1600" height="800" id="mainsvg" class="svgs"></svg>
+
+    <script>
+        console.log("xxx");
+        const data = [
+                {name:'Wen-Yang', value:6},
+                {name:'Cai Yun', value:16},
+                {name:'Liang-Yuan', value:12},
+                {name:'Yuan-Chen', value:6},
+                {name:'Rui-Long', value:10},
+                {name:'Dong Xin', value:12},
+                {name:'He Yu', value:20},
+                {name:'Xiang-Li', value:12},
+                {name:'Godness', value:14},
+                {name:'Wei-Yu', value:15},
+                {name:'Chen Zheng', value:14},
+                {name:'Yu Peng', value:15},
+                {name:'Li Jian', value:18}
+            ];
+        const data1 = [
+                {name:'Wen-Yang', value:16},
+                {name:'Cai Yun', value:6},
+                {name:'Liang-Yuan', value:2},
+                {name:'Yuan-Chen', value:12},
+                {name:'Rui-Long', value:14},
+                {name:'Dong Xin', value:2},
+                {name:'He Yu', value:18},
+                {name:'Xiang-Li', value:20},
+                {name:'Godness', value:14},
+                {name:'Wei-Yu', value:5},
+                {name:'Chen Zheng', value:18},
+                {name:'Yu Peng', value:14},
+                {name:'Li Jian', value:18}
+            ];
+        const data2 = [
+                {name:'Rui-Long', value:10},
+                {name:'Cai Yun', value:16},
+                {name:'Liang-Yuan', value:12},
+                {name:'Wen-Yang', value:6},
+                {name:'Yuan-Chen', value:6},
+                {name:'Dong Xin', value:12},
+                {name:'Xiang-Li', value:12},
+                {name:'He Yu', value:20},
+                {name:'Godness', value:14},
+                {name:'Wei-Yu', value:15},
+                {name:'Chen Zheng', value:14},
+                {name:'Yu Peng', value:15},
+                {name:'Li Jian', value:18}
+            ];
+
+            // 画图容器尺寸数据
+            const svg = d3.select('#mainsvg');
+            const width = +svg.attr('width'); // string to number
+            const height = +svg.attr('height'); // string to number
+            const margin = {top:60, right:30, bottom: 60, left:150};
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top -margin.bottom;
+            
+            // 比例尺
+            const xScale = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([0, innerWidth]);
+            const yScale = d3.scaleBand().domain(data.map(d => d.name)).range([0, innerHeight]).padding(0.1);
+
+            // 添加并确定画图容器位置
+            const g = svg.append('g').attr('id', 'maingroup').attr('transform', `translate(${margin.left},${margin.top})`);
+            
+            // 坐标轴
+            const xAxis = d3.axisBottom(xScale);
+            const yAxis = d3.axisLeft(yScale);
+
+            // 坐标轴添加到容器
+            // x 轴默认在上面，习惯上需要把他放到下面
+            g.append('g').call(xAxis).attr('transform', `translate(0, ${innerHeight})`);
+            g.append('g').call(yAxis);
+
+            // 绘图：根据数据向画图容器中添加图形
+            data.forEach(d => {
+                g.append('rect')
+                .attr('width', xScale(d.value))
+                .attr('height', yScale.bandwidth())
+                .attr('fill', 'green')
+                .attr('opacity', 0.8)
+                .attr('y', yScale(d.name));
+            });
+
+            // 改变纵坐标标识大小
+            d3.selectAll('.tick text').attr('font-size', '2em');
+
+            // 添加标题
+            g.append('text').text('Members of CSCG')
+            .attr('font-size', '3em')
+            .attr('transform', `translate(${innerWidth / 2}, 0)`)
+            .attr('text-anchor', 'middle')
+
+            // 动态绑定数据，按默认的顺序，即只是按数组元素的顺序绑定，
+            // 如果两次绑定的数据顺序不一样会造成数据表达的混乱
+            d3.selectAll('rect').data(data1).attr('width', d => xScale(d.value));
+            // 所以要引入 key 来保证数据表达的准确，同时也解决了添加和删除数据后表达的准确性
+            // 注意 data1 和 data2 数据的顺序是不一样的
+            d3.selectAll('rect').data(data2, d => d.name).attr('width', d => xScale(d.value))
+            
+            // animation
+            //d3.selectAll('rect').data(data).transition().duration(1000).attr('width', d => xScale(d.value))
+            //d3.selectAll('rect').data(data1).transition().duration(1000).attr('width', d => xScale(d.value))
+            d3.selectAll('rect').data(data1, d => d.name).transition().duration(1000).attr('width', d => xScale(d.value))
+
+            // 自定义 data-join
+            d3.selectAll('rect').data(data).transition().duration(1000).attr('width', d => xScale(d.value))
+            d3.selectAll('rect').data(data1).join('rect').transition().duration(1000).attr('width', d => xScale(d.value))
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../javascripts/d3.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="../javascripts/index.js"></script>
+</head>
+<body>    
+    <h1>Temperatures de l'année 2022</h1>
+    <p>S.V.P. choisissez le mois pour visualiser les temperatures de ce mois</p>
+        <select id="mois">
+            <option>01</option>
+            <option>02</option>
+            <option>03</option>
+            <option>04</option>
+            <option>05</option>
+            <option>06</option>
+            <option>07</option>
+            <option>08</option>
+            <option>09</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+        </select>
+    <button onclick="choisirMois()">Choisir</button>
+
+    <div id = "areaVisualisation"></div>
+
+
+
+    <script>
+        var str = "Canada"
+        var body = d3.select("body")
+        var p = body.selectAll("p");
+        // binding p and str
+        p.datum(str);
+        p.text((d, i)=>i + ": " + d)
+        
+        var arr = ["a", "b", "c"]
+        var pArr = d3.select("body").selectAll("arr")
+        // binding pArr and arr
+        pArr.data(arr);
+        pArr.text((d, i) => i + ": " + d)
+
+        // insert element
+        var pLabel = body.select("#label")
+        pLabel.append("h6").text("append here")
+        pLabel.insert("h6").text("insert here")
+
+        // delete element
+        var pDelete = body.select("#delete")
+        pDelete.remove();
+
+        // svg: line
+        var width = 300;
+        var height = 300;
+        var svg = d3.select("#svgcontainer")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        svg.append("line")
+            .attr("x1", 100)
+            .attr("y1", 100)
+            .attr("x2", 200)
+            .attr("y2", 200)
+            .style("stroke", "rgb(255,0,0)")
+            .style("stroke-width", 2);
+    </script>
+</body>
+</html>
