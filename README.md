@@ -1,5 +1,5 @@
 # Plateforme de microservice de requête et de statistique des températures d’une année
 
-Backe-end: Web API using Node.js Express
+Backe-end: RESTful API(Node.js Express) 
 
-DataBase: MongoDB Atlas Cloud
+NoSQL DB: MongoDB(Atlas Cloud)
